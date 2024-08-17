@@ -12,7 +12,7 @@ class MapController extends Controller
 
 
         $includes = [];
-        // if ($request->query('includeEntity')) $includes[] = 'entity';
+        if ($request->query('includeUserEntity')) $includes[] = 'user.entity';
         if ($request->query('includeUser')) $includes[] = 'user';
         if ($request->query('includeFibers')) $includes[] = 'fibers';
         if ($request->query('includeMarkers')) $includes[] = 'markers';
