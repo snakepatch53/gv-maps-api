@@ -34,8 +34,8 @@ class Entity extends Model
         return $this->hasMany(User::class);
     }
 
-    public function maps()
-    {
-        return $this->hasMany(Map::class);
-    }
+    // public function maps()
+    // {
+    //     return $this->hasMany(Map::class);
+    // }
 }

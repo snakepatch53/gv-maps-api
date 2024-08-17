@@ -9,15 +9,21 @@ class MapController extends Controller
 {
     public function index(Request $request)
     {
+
+
         $includes = [];
-        if ($request->query('includeEntity')) $includes[] = 'entity';
+        // if ($request->query('includeEntity')) $includes[] = 'entity';
         if ($request->query('includeUser')) $includes[] = 'user';
         if ($request->query('includeFibers')) $includes[] = 'fibers';
         if ($request->query('includeMarkers')) $includes[] = 'markers';
 
-        // Restringimos el acceso dependiendo del rol del usuario
+        // vamos a obtener mapas de acuerdo a la entidad del usuario
+        $user = auth()->user();
+
         $data = [];
-        $data = Map::with($includes)->get();
+        $data = Map::with($includes)->whereHas('user', function ($query) use ($user) {
+            $query->where('entity_id', $user->entity_id);
+        })->get();
 
 
         return response()->json([

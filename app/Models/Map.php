@@ -12,14 +12,14 @@ class Map extends Model
     protected $fillable = [
         'name',
         'description',
-        'entity_id',
+        // 'entity_id',
         'user_id',
     ];
 
-    public function entity()
-    {
-        return $this->belongsTo(Entity::class);
-    }
+    // public function entity()
+    // {
+    //     return $this->belongsTo(Entity::class);
+    // }
 
     public function user()
     {

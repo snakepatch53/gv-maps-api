@@ -12,11 +12,8 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        User::factory()
-            ->count(3)
-            ->create();
-
         DB::table('users')->insert([
+            'id' => 1,
             'name' => 'Super Admin',
             'email' => 'admin',
             'user' => 'useradmin',
@@ -24,5 +21,8 @@ class UserSeeder extends Seeder
             'role' => 'SUPERADMIN',
             'entity_id' => Entity::all()->random()->id,
         ]);
+        User::factory()
+            ->count(3)
+            ->create();
     }
 }

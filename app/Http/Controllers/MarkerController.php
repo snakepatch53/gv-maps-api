@@ -25,6 +25,23 @@ class MarkerController extends Controller
         ]);
     }
 
+    public function getByMapId(Request $request, $map_id)
+    {
+        $includes = [];
+        if ($request->query('includeMap')) $includes[] = 'map';
+
+        // Restringimos el acceso dependiendo del rol del usuario
+        $data = [];
+        $data = Marker::with($includes)->where('map_id', $map_id)->get();
+
+
+        return response()->json([
+            "success" => true,
+            "message" => "Recursos encontrados",
+            "data" => $data
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),  [

@@ -28,6 +28,12 @@ Route::group(['prefix' => 'v1'], function () {
 
     // users
     Route::post('login', [UserController::class, 'login']);
+
+    // fibers
+    Route::get('fibers/get-by-map-id/{id}', [FiberController::class, 'getByMapId']);
+
+    // markers
+    Route::get('markers/get-by-map-id/{id}', [MarkerController::class, 'getByMapId']);
 });
 
 // Not Found

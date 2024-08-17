@@ -13,7 +13,6 @@ class MapFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'description' => $this->faker->text(40),
-            'entity_id' => Entity::factory(),
             'user_id' => User::factory(),
         ];
     }

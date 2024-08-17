@@ -10,17 +10,36 @@ class FiberController extends Controller
 {
     public function index(Request $request)
     {
+
+        $user = auth()->user();
+        $entity = $user->entity;
+
         $includes = [];
         if ($request->query('includeMap')) $includes[] = 'map';
         if ($request->query('includeFiberMarkers')) $includes[] = 'fiberMarkers';
 
         // Restringimos el acceso dependiendo del rol del usuario
         $data = [];
-        // incluimos fiberMarkers order by 'order'
-        // $data = Fiber::with(['fiberMarkers' => function ($query) {
-        //     $query->orderBy('order', 'asc');
-        // }])->get();
         $data = Fiber::with($includes)->get();
+
+
+        return response()->json([
+            "success" => true,
+            "message" => "Recursos encontrados",
+            "data" => $data
+        ]);
+    }
+
+    public function getByMapId(Request $request, $map_id)
+    {
+
+        $includes = [];
+        if ($request->query('includeMap')) $includes[] = 'map';
+        if ($request->query('includeFiberMarkers')) $includes[] = 'fiberMarkers';
+
+        // Restringimos el acceso dependiendo del rol del usuario
+        $data = [];
+        $data = Fiber::with($includes)->where('map_id', $map_id)->get();
 
 
         return response()->json([

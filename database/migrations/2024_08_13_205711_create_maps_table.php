@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
 
-            $table->foreignId('entity_id')->constrained('entities');
+            // $table->foreignId('entity_id')->constrained('entities');
             $table->foreignId('user_id')->constrained('users');
         });
     }
