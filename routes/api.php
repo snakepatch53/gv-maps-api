@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComboController;
 use App\Http\Controllers\EntityController;
 use App\Http\Controllers\FiberController;
 use App\Http\Controllers\FiberMarkerController;
@@ -34,6 +35,9 @@ Route::group(['prefix' => 'v1'], function () {
 
     // markers
     Route::get('markers/get-by-map-id/{id}', [MarkerController::class, 'getByMapId']);
+
+    // combos
+    Route::get('combos/get-public-map/{id}', [ComboController::class, 'getPublicMap']);
 });
 
 // Not Found
