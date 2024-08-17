@@ -30,7 +30,10 @@ class UserController extends Controller
         }
 
         // if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password]) && !Auth::attempt(['user' => $request->email, 'password' => $request->password])) {
+        if (
+            !Auth::attempt(['email' => $request->email, 'password' => $request->password]) &&
+            !Auth::attempt(['user' => $request->email, 'password' => $request->password])
+        ) {
             return response()->json([
                 "success" => false,
                 "message" => "Credenciales incorrectas",
@@ -40,7 +43,9 @@ class UserController extends Controller
         }
         // incluir la entity del usuario
 
-        $user = User::where('email', $request->email)->with('entity')->first();
+        $user = User::where('email', $request->email)
+            ->orWhere('user', $request->email)
+            ->with('entity')->first();
 
         // $user = User::where('email', $request->email)->first();
 
