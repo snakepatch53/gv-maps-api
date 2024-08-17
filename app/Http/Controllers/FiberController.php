@@ -86,7 +86,7 @@ class FiberController extends Controller
             "message" => "Recurso creado",
             "errors" => null,
             "fiber_created" => $fiber,
-            "data" => Fiber::with(['map', 'fiberMarkers'])->get(),
+            "data" => Fiber::with(['map', 'fiberMarkers'])->where('map_id', $request->map_id)->get()
         ]);
     }
 

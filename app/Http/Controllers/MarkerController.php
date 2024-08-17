@@ -72,7 +72,7 @@ class MarkerController extends Controller
             "success" => true,
             "message" => "Recurso creado",
             "errors" => null,
-            "data" => Marker::with('map')->get(),
+            "data" => Marker::with('map')->where('map_id', $request->map_id)->get()
         ]);
     }
 
@@ -122,7 +122,7 @@ class MarkerController extends Controller
             "success" => true,
             "message" => "Recurso actualizado",
             "errors" => null,
-            "data" => Marker::with('map')->get(),
+            "data" => Marker::with('map')->where('map_id', $marker->map_id)->get(),
             "token" => null
         ]);
     }
@@ -173,7 +173,7 @@ class MarkerController extends Controller
             "success" => true,
             "message" => "Recurso eliminado",
             "errors" => null,
-            "data" => Marker::with('map')->get()
+            "data" => Marker::with('map')->where('map_id', $marker->map_id)->get()
         ]);
     }
 }
