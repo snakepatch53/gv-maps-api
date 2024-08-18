@@ -13,6 +13,7 @@ class Marker extends Model
         "Manga",
         "Domo",
         "Reserva",
+        "Nodo",
         "Nap 1",
         "Nap 2",
         "ONT",
