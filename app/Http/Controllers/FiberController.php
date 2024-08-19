@@ -97,11 +97,48 @@ class FiberController extends Controller
 
     public function update(Request $request, Fiber $fiber)
     {
-        //
+        $validator = Validator::make($request->all(),  [
+            'name' => "required",
+            "type" => "in:" . implode(",", Fiber::$_TYPES),
+            'threads' => "required",
+            'map_id' => "prohibited"
+        ], [
+            "name.required" => "El campo nombre es requerido",
+            "type.in" => "El campo tipo no es válido",
+            "threads.required" => "El campo threads es requerido",
+            "map_id.prohibited" => "El campo map_id no puede ser modificado"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "success" => false,
+                "message" => $validator->errors()->first(),
+                "errors" => $validator->errors(),
+                "data" => null
+            ]);
+        }
+
+        $fiber->update($request->all());
+
+        return response()->json([
+            "success" => true,
+            "message" => "Recurso actualizado",
+            "errors" => null,
+            "data" => Fiber::with(['map', 'fiberMarkers'])->where('map_id', $fiber->map_id)->get(),
+            "token" => null
+        ]);
     }
 
     public function destroy(Fiber $fiber)
     {
-        //
+        $map_id = $fiber->map_id;
+        $fiber->delete();
+
+        return response()->json([
+            "success" => true,
+            "message" => "Recurso eliminado",
+            "errors" => null,
+            "data" => Fiber::with(['map', 'fiberMarkers'])->where('map_id', $map_id)->get()
+        ]);
     }
 }
