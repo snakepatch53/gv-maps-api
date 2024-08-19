@@ -130,17 +130,27 @@ class MarkerController extends Controller
     public function update(Request $request, Marker $marker)
     {
         $validator = Validator::make($request->all(),  [
+            'name' => "required",
             "latitude" => "required",
             "longitude" => "required",
             "type" => "in:" . implode(",", Marker::$_TYPES),
-            "map_id" => "required|exists:maps,id"
+            'reserve_meters' => 'required_if:type,' . Marker::$_TYPES[2], // reserve type
+            'nap_buffer' => 'required_if:type,' . Marker::$_TYPES[4] . ',' . Marker::$_TYPES[5], // nap type
+            'nap_thread' => 'required_if:type,' . Marker::$_TYPES[4] . ',' . Marker::$_TYPES[5], // nap type
+            'nap_ports' => 'required_if:type,' . Marker::$_TYPES[4] . ',' . Marker::$_TYPES[5], // nap type
+            "map_id" => "prohibited"
         ], [
+            "name.required" => "El campo nombre es requerido",
             "latitude.required" => "El campo latitud es requerido",
             "longitude.required" => "El campo longitud es requerido",
             "type.in" => "El campo tipo no es válido",
-            "map_id.required" => "El campo map_id es requerido",
-            "map_id.exists" => "El campo map_id no es válido"
+            'reserve_meters.required_if' => "El campo reserve_meters es requerido",
+            'nap_buffer.required_if' => "El campo nap_buffer es requerido",
+            'nap_thread.required_if' => "El campo nap_thread es requerido",
+            'nap_ports.required_if' => "El campo nap_ports es requerido",
+            "map_id.prohibited" => "No puedes enviar el campo map_id"
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 "success" => false,
@@ -149,18 +159,14 @@ class MarkerController extends Controller
                 "data" => null
             ]);
         }
-        $includes = [];
-        if ($request->query('includeMap')) $includes[] = 'map';
 
         $marker->update($request->all());
-
-        $marker->load($includes);
 
         return response()->json([
             "success" => true,
             "message" => "Recurso actualizado",
             "errors" => null,
-            "data" => $marker,
+            "data" => Marker::with('map')->where('map_id', $marker->map_id)->get(),
             "token" => null
         ]);
     }

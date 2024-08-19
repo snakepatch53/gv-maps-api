@@ -25,10 +25,15 @@ class Marker extends Model
         'longitude',
         'description',
         'type',
+
+        // reserve type
         'reserve_meters',
-        'nap_threads',
-        'nap_buffers',
+
+        // nap type
+        'nap_buffer',
+        'nap_thread',
         'nap_ports',
+
         'map_id',
     ];
 

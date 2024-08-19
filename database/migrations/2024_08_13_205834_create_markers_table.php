@@ -20,10 +20,13 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('type', Marker::$_TYPES)->default(Marker::$_TYPES[0]);
 
-            $table->integer('reserve_meters')->nullable();
-            $table->integer('nap_threads')->nullable();
-            $table->integer('nap_buffers')->nullable();
-            $table->integer('nap_ports')->nullable();
+            // reserve type
+            $table->integer('reserve_meters')->default(1);
+
+            // nap type
+            $table->integer('nap_buffer')->default(1);
+            $table->integer('nap_thread')->default(1);
+            $table->integer('nap_ports')->default(16);
 
             $table->foreignId('map_id')->constrained('maps');
         });
